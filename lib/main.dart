@@ -9,16 +9,22 @@ class ListController extends GetxController {
   RxList<String> allNames = <String>[].obs;
   RxList<List<String>> dividedLists = <List<String>>[].obs;
 
-  String get totalNamesText => 'Total: ${allNames.length}';
+  String get totalNamesText => 'Total de Nomes: ${allNames.length}';
   String get addedNamesText => 'Nomes Adicionados: ${allNames.join(', ')}';
 
   void divideList() {
     dividedLists.clear();
 
+    final List<String> shuffledNames = List.from(allNames);
+    shuffledNames.shuffle();
+
     const chunkSize = 5;
-    for (var i = 0; i < allNames.length; i += chunkSize) {
-      final chunk = allNames.sublist(
-          i, i + chunkSize > allNames.length ? allNames.length : i + chunkSize);
+    for (var i = 0; i < shuffledNames.length; i += chunkSize) {
+      final chunk = shuffledNames.sublist(
+          i,
+          i + chunkSize > shuffledNames.length
+              ? shuffledNames.length
+              : i + chunkSize);
       dividedLists.add(chunk);
     }
   }
@@ -57,12 +63,11 @@ class MyApp extends StatelessWidget {
                 },
                 child: const Text('Adicionar Nome'),
               ),
-              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   listController.divideList();
                 },
-                child: const Text('Dividir Lista'),
+                child: const Text('Sortear'),
               ),
               const SizedBox(height: 20),
               Obx(() {
