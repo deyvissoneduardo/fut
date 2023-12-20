@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "722866530984",
+    "firebase_url": "https://soccer-7898e-default-rtdb.firebaseio.com",
+    "project_id": "soccer-7898e",
+    "storage_bucket": "soccer-7898e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722866530984:android:0cc27d07720c320d90b09d",
+        "android_client_info": {
+          "package_name": "com.example.fut"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH0JZOTFmWy5qmtKV3B7bnkfBlpm_OO_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
