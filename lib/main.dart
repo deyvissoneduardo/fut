@@ -39,9 +39,49 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Icon(Icons.sports_soccer),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.dialog(
+                  AlertDialog.adaptive(
+                    title: const Text('Deletar Lista ?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Get.back(),
+                        style: const ButtonStyle(
+                          side: MaterialStatePropertyAll<BorderSide>(
+                            BorderSide(color: Colors.redAccent),
+                          ),
+                        ),
+                        child: const Text(
+                          'Cancelar',
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          listController.allNames.clear();
+                          listController.dividedLists.clear();
+                          Get.back();
+                        },
+                        child: const Text('Confirmar'),
+                      )
+                    ],
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
