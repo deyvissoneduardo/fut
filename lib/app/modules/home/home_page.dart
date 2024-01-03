@@ -1,7 +1,8 @@
-import 'package:fut/app/core/form_helper.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './home_controller.dart';
+import 'page/amount_persons_page.dart';
+import 'page/list_time_page.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -10,94 +11,75 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sorteio de Nomes'),
+        title: const Icon(Icons.sports_soccer),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.dialog(
+                AlertDialog.adaptive(
+                  title: const Text('Deletar Times ?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Get.back(),
+                      style: const ButtonStyle(
+                        side: MaterialStatePropertyAll<BorderSide>(
+                          BorderSide(color: Colors.redAccent),
+                        ),
+                      ),
+                      child: const Text(
+                        'Cancelar',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        controller.allNames.clear();
+                        controller.dividedLists.clear();
+                        Get.back();
+                      },
+                      child: const Text('Confirmar'),
+                    )
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.delete_forever,
+              color: Colors.red,
+              size: 30,
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.adicionarNome(),
-        elevation: 15,
-        focusElevation: 15.0,
-        child: const Icon(Icons.add),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: controller.nomeController,
-                onTapOutside: (value) => context.unfocus(),
-                textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  labelText: 'Nome',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    controller.sortearNomes();
-                  },
-                  child: const Text('Sortear'),
-                ),
-              ),
-              Obx(() {
-                return Column(
-                  children: [
-                    Text('Total: ${controller.nomes.length}'),
-                    controller.view.isFalse
-                        ? const SizedBox()
-                        : Column(
-                            children: controller.nomes
-                                .map((nome) => Text(nome))
-                                .toList(),
-                          ),
-                  ],
-                );
-              }),
-              Obx(
-                () {
-                  return Column(
-                    children: [
-                      const Text('Nomes Sorteados:'),
-                      for (int i = 0;
-                          i <
-                              controller
-                                  .dividirNomesSorteados(
-                                      controller.nomesSorteados, 5)
-                                  .length;
-                          i++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color:
-                                  controller.cores[i % controller.cores.length],
-                            ),
-                            child: Column(
-                              children: controller
-                                  .dividirNomesSorteados(
-                                      controller.nomesSorteados, 5)[i]
-                                  .map((nome) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(nome),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
+          child: const Icon(Icons.add),
+          onPressed: () {
+            final name = controller.nameController.text.trim();
+            if (name.isNotEmpty) {
+              controller.allNames.add(name);
+              controller.nameController.clear();
+            }
+          }),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            TextField(
+              controller: controller.nameController,
+              decoration: const InputDecoration(labelText: 'Adicione um nome'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                controller.divideList();
+              },
+              child: const Text('Sortear'),
+            ),
+            const SizedBox(height: 20),
+            const AmountPersonsPage(),
+            const ListTimePage(),
+          ],
         ),
       ),
     );
