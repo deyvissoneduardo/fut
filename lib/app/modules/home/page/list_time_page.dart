@@ -22,12 +22,12 @@ class ListTimePage extends GetView<HomeController> {
               }
               controller.allNames
                   .insert(newIndex, controller.allNames.removeAt(oldIndex));
-              controller.update(); // Atualize o estado após a reordenação
+              controller.update();
             },
             children: [
               for (var i = 0; i < controller.dividedLists.length; i++)
                 Card(
-                  key: Key('$i'),
+                  key: UniqueKey(),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
