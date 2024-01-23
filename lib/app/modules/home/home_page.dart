@@ -8,11 +8,13 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // parte de cima
       appBar: AppBar(
         title: const Icon(Icons.sports_soccer),
         centerTitle: true,
         actions: [
           IconButton(
+            // pop para limpar a lista
             onPressed: () {
               Get.dialog(
                 AlertDialog.adaptive(
@@ -50,6 +52,7 @@ class HomePage extends GetView<HomeController> {
           ),
         ],
       ),
+      // FAB para adc na lista fica em baixo da tela
       floatingActionButton: FloatingActionButton(
         child: const Icon(
           Icons.add,
@@ -67,11 +70,13 @@ class HomePage extends GetView<HomeController> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            // input onde inseri nome
             TextField(
               controller: controller.nameController,
               decoration: const InputDecoration(labelText: 'Adicione um nome'),
             ),
             const SizedBox(height: 20),
+            // btn de sortear
             ElevatedButton(
               onPressed: () {
                 controller.divideList();
@@ -79,8 +84,7 @@ class HomePage extends GetView<HomeController> {
               child: const Text('Sortear'),
             ),
             const SizedBox(height: 20),
-            // mudar a coluna parar ReorderableListView
-            // assim sera possivel reodernar
+
             Obx(() {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,6 +93,8 @@ class HomePage extends GetView<HomeController> {
                   const SizedBox(height: 8),
                   Text(controller.addedNamesText),
                   const SizedBox(height: 20),
+                  // mudar a coluna parar ReorderableListView
+                  // assim sera possivel reodernar
                   if (controller.isLoading.isTrue)
                     const Center(
                       child: CircularProgressIndicator.adaptive(),
