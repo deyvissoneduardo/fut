@@ -7,6 +7,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(GetMaterialApp(
     initialBinding: HomeBindings(),
+    initialRoute: '/home',
     home: const HomePage(),
   ));
 }

@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './home_controller.dart';
-import 'page/amount_persons_page.dart';
-import 'page/list_time_page.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -18,7 +16,7 @@ class HomePage extends GetView<HomeController> {
             onPressed: () {
               Get.dialog(
                 AlertDialog.adaptive(
-                  title: const Text('Deletar Times ?'),
+                  title: const Text('Deletar Lista ?'),
                   actions: [
                     TextButton(
                       onPressed: () => Get.back(),
@@ -53,14 +51,18 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            final name = controller.nameController.text.trim();
-            if (name.isNotEmpty) {
-              controller.allNames.add(name);
-              controller.nameController.clear();
-            }
-          }),
+        child: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          final name = controller.nameController.text.trim();
+          if (name.isNotEmpty) {
+            controller.allNames.add(name);
+            controller.nameController.clear();
+          }
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
@@ -77,8 +79,39 @@ class HomePage extends GetView<HomeController> {
               child: const Text('Sortear'),
             ),
             const SizedBox(height: 20),
-            const AmountPersonsPage(),
-            const ListTimePage(),
+            // mudar a coluna parar ReorderableListView
+            // assim sera possivel reodernar
+            Obx(() {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(controller.totalNamesText),
+                  const SizedBox(height: 8),
+                  Text(controller.addedNamesText),
+                  const SizedBox(height: 20),
+                  if (controller.isLoading.isTrue)
+                    const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  if (controller.dividedLists.isNotEmpty)
+                    for (var i = 0; i < controller.dividedLists.length; i++)
+                      Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text('Lista ${i + 1}:'),
+                              const SizedBox(height: 8),
+                              Text(controller.dividedLists[i].join(', ')),
+                            ],
+                          ),
+                        ),
+                      ),
+                ],
+              );
+            }),
           ],
         ),
       ),
