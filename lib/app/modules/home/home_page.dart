@@ -93,28 +93,32 @@ class HomePage extends GetView<HomeController> {
                   const SizedBox(height: 8),
                   Text(controller.addedNamesText),
                   const SizedBox(height: 20),
-                  // mudar a coluna parar ReorderableListView
-                  // assim sera possivel reodernar
-                  if (controller.isLoading.isTrue)
-                    const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-                  if (controller.dividedLists.isNotEmpty)
-                    for (var i = 0; i < controller.dividedLists.length; i++)
-                      Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text('Lista ${i + 1}:'),
-                              const SizedBox(height: 8),
-                              Text(controller.dividedLists[i].join(', ')),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: 500,
+                    child: GetBuilder<HomeController>(
+                      builder: (_) => ReorderableListView(
+                        onReorder: controller.onReorder,
+                        children: <Widget>[
+                          for (int index = 0;
+                              index < controller.dividedLists.length;
+                              index += 1)
+                            Card(
+                              key: Key('$index'),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Time ${index + 1}'),
+                                    Text('${controller.dividedLists[index]}'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
+                    ),
+                  ),
                 ],
               );
             }),

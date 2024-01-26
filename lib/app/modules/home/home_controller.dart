@@ -7,14 +7,22 @@ class HomeController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   RxBool isLoading = false.obs;
 
+  final List<int> items = List<int>.generate(50, (int index) => index).obs;
+
   String get totalNamesText => 'Total de Nomes: ${allNames.length}';
   String get addedNamesText => 'Nomes Adicionados: ${allNames.join(', ')}';
 
+  void onReorder(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final int item = items.removeAt(oldIndex);
+    items.insert(newIndex, item);
+    update();
+  }
+
   void divideList() async {
-    isLoading.value = true;
     dividedLists.clear();
-    await Future.delayed(const Duration(seconds: 3));
-    isLoading.value = false;
 
     final List<String> shuffledNames = List.from(allNames);
     shuffledNames.shuffle();
