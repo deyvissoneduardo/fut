@@ -13,6 +13,7 @@ class ListTimePage extends GetView<HomeController> {
         return SizedBox(
           height: Get.height,
           child: ReorderableListView(
+            shrinkWrap: true,
             onReorder: (oldIndex, newIndex) {
               if (newIndex >= controller.allNames.length) {
                 newIndex = controller.allNames.length - 1;
@@ -34,7 +35,12 @@ class ListTimePage extends GetView<HomeController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text('Time ${i + 1}:'),
+                        Text(
+                          'Time ${i + 1}:',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                         const SizedBox(height: 8),
                         Text(controller.dividedLists[i].join(', ')),
                       ],

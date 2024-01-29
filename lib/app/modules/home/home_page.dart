@@ -87,22 +87,23 @@ class HomePage extends GetView<HomeController> {
                 showAdaptiveDialog(
                   context: context,
                   builder: (context) => AlertDialog.adaptive(
-                      title: const Text('Quantidade de Jogadores'),
-                      content:
-                          TextFormField(controller: controller.qtdController),
-                      actions: [
-                        TextButtionCancel(
-                          onPressed: () => Get.back(),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            controller.divideList();
-                            Navigator.of(context).pop();
-                            controller.qtdController.clear();
-                          },
-                          child: const Text('Confirmar'),
-                        ),
-                      ]),
+                    title: const Text('Quantidade de Jogadores'),
+                    content:
+                        TextFormField(controller: controller.qtdController),
+                    actions: [
+                      TextButtionCancel(
+                        onPressed: () => Get.back(),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          controller.divideList();
+                          Navigator.of(context).pop();
+                          controller.qtdController.clear();
+                        },
+                        child: const Text('Confirmar'),
+                      ),
+                    ],
+                  ),
                 );
               },
               child: const Text('Sortear'),
