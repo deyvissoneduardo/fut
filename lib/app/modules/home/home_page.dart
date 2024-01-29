@@ -1,5 +1,9 @@
+import 'package:fut/app/modules/home/page/amount_persons_page.dart';
+import 'package:fut/app/modules/home/page/list_time_page.dart';
+import 'package:fut/app/modules/home/page/text_buttion_cancel.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import './home_controller.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -79,46 +83,37 @@ class HomePage extends GetView<HomeController> {
             // btn de sortear
             ElevatedButton(
               onPressed: () {
-                controller.divideList();
+                //controller.divideList();
+                showAdaptiveDialog(
+                  context: context,
+                  builder: (context) => AlertDialog.adaptive(
+                      title: const Text('Quantidade de Jogadores'),
+                      content:
+                          TextFormField(controller: controller.qtdController),
+                      actions: [
+                        TextButtionCancel(
+                          onPressed: () => Get.back(),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            controller.divideList();
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Confirmar'),
+                        ),
+                      ]),
+                );
               },
               child: const Text('Sortear'),
             ),
             const SizedBox(height: 20),
 
             Obx(() {
-              return Column(
+              return const Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(controller.totalNamesText),
-                  const SizedBox(height: 8),
-                  Text(controller.addedNamesText),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 500,
-                    child: GetBuilder<HomeController>(
-                      builder: (_) => ReorderableListView(
-                        onReorder: controller.onReorder,
-                        children: <Widget>[
-                          for (int index = 0;
-                              index < controller.dividedLists.length;
-                              index += 1)
-                            Card(
-                              key: Key('$index'),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Time ${index + 1}'),
-                                    Text('${controller.dividedLists[index]}'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  AmountPersonsPage(),
+                  ListTimePage(),
                 ],
               );
             }),

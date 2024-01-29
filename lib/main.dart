@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(GetMaterialApp(
-    initialBinding: HomeBindings(),
-    initialRoute: '/home',
-    home: const HomePage(),
-  ));
+      initialBinding: HomeBindings(),
+      initialRoute: '/',
+      home: const HomePage(),
+      debugShowCheckedModeBanner: false));
 }

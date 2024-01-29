@@ -7,6 +7,8 @@ class HomeController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   RxBool isLoading = false.obs;
 
+  final qtdController = TextEditingController();
+
   final List<int> items = List<int>.generate(50, (int index) => index).obs;
 
   String get totalNamesText => 'Total de Nomes: ${allNames.length}';
@@ -27,7 +29,7 @@ class HomeController extends GetxController {
     final List<String> shuffledNames = List.from(allNames);
     shuffledNames.shuffle();
 
-    const chunkSize = 5;
+    var chunkSize = int.parse(qtdController.text);
     for (var i = 0; i < shuffledNames.length; i += chunkSize) {
       final chunk = shuffledNames.sublist(
           i,
