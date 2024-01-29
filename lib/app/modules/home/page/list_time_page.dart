@@ -12,23 +12,13 @@ class ListTimePage extends GetView<HomeController> {
       () {
         return SizedBox(
           height: Get.height,
-          child: ReorderableListView(
-            shrinkWrap: true,
-            onReorder: (oldIndex, newIndex) {
-              if (newIndex >= controller.allNames.length) {
-                newIndex = controller.allNames.length - 1;
-              }
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              controller.allNames
-                  .insert(newIndex, controller.allNames.removeAt(oldIndex));
-              controller.update();
-            },
+          child: Column(
             children: [
               for (var i = 0; i < controller.dividedLists.length; i++)
                 Card(
                   key: UniqueKey(),
+                  color:
+                      controller.cardColors[i % controller.cardColors.length],
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

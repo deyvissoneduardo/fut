@@ -3,7 +3,6 @@ import 'package:fut/app/modules/home/page/list_time_page.dart';
 import 'package:fut/app/modules/home/page/text_buttion_cancel.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import './home_controller.dart';
 
 class HomePage extends GetView<HomeController> {

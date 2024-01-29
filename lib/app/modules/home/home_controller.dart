@@ -14,6 +14,18 @@ class HomeController extends GetxController {
   String get totalNamesText => 'Total de Nomes: ${allNames.length}';
   String get addedNamesText => 'Nomes Adicionados: ${allNames.join(', ')}';
 
+  List<Color> cardColors = [
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.purple,
+    Colors.grey,
+    Colors.amber,
+    Colors.pink,
+    Colors.blueGrey,
+    Colors.brown
+  ];
+
   void onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
       newIndex -= 1;
