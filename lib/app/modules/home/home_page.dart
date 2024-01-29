@@ -98,6 +98,7 @@ class HomePage extends GetView<HomeController> {
                           onPressed: () {
                             controller.divideList();
                             Navigator.of(context).pop();
+                            controller.qtdController.clear();
                           },
                           child: const Text('Confirmar'),
                         ),
@@ -108,15 +109,13 @@ class HomePage extends GetView<HomeController> {
             ),
             const SizedBox(height: 20),
 
-            Obx(() {
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AmountPersonsPage(),
-                  ListTimePage(),
-                ],
-              );
-            }),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AmountPersonsPage(),
+                ListTimePage(),
+              ],
+            ),
           ],
         ),
       ),
