@@ -36,7 +36,7 @@ class ListTimePage extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                )
+                ),
             ],
           ),
         );

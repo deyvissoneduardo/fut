@@ -1,9 +1,9 @@
-import 'package:fut/app/modules/home/page/amount_persons_page.dart';
-import 'package:fut/app/modules/home/page/list_time_page.dart';
-import 'package:fut/app/modules/home/page/text_buttion_cancel.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './home_controller.dart';
+import 'page/amount_persons_page.dart';
+import 'page/list_time_page.dart';
+import 'page/text_buttion_cancel.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class HomePage extends GetView<HomeController> {
                         Get.back();
                       },
                       child: const Text('Confirmar'),
-                    )
+                    ),
                   ],
                 ),
               );

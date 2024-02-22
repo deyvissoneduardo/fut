@@ -23,7 +23,7 @@ class HomeController extends GetxController {
     Colors.amber,
     Colors.pink,
     Colors.blueGrey,
-    Colors.brown
+    Colors.brown,
   ];
 
   void onReorder(int oldIndex, int newIndex) {
@@ -41,13 +41,14 @@ class HomeController extends GetxController {
     final List<String> shuffledNames = List.from(allNames);
     shuffledNames.shuffle();
 
-    var chunkSize = int.parse(qtdController.text);
+    final chunkSize = int.parse(qtdController.text);
     for (var i = 0; i < shuffledNames.length; i += chunkSize) {
       final chunk = shuffledNames.sublist(
-          i,
-          i + chunkSize > shuffledNames.length
-              ? shuffledNames.length
-              : i + chunkSize);
+        i,
+        i + chunkSize > shuffledNames.length
+            ? shuffledNames.length
+            : i + chunkSize,
+      );
       dividedLists.add(chunk);
     }
   }
