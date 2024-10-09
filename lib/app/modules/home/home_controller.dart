@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   RxList<String> allNames = <String>[].obs;
@@ -7,10 +11,8 @@ class HomeController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   RxBool isLoading = false.obs;
 
-  final qtdController = TextEditingController();
-
   final List<int> items = List<int>.generate(50, (int index) => index).obs;
-
+  RxInt sort = 0.obs;
   String get totalNamesText => 'Total de Nomes: ${allNames.length}';
   String get addedNamesText => 'Nomes Adicionados: ${allNames.join(', ')}';
 
@@ -25,6 +27,21 @@ class HomeController extends GetxController {
     Colors.blueGrey,
     Colors.brown,
   ];
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadLists();
+  }
+
+  void generateRandomNumber() async {
+    isLoading.value = true;
+    final Random random = Random();
+    await Future.delayed(const Duration(seconds: 2));
+    sort.value = ((random.nextInt(10) * 2) + (random.nextInt(20) * 4)) +
+        ((random.nextInt(30) * 3) + ((random.nextInt(40) * 5)));
+    isLoading.value = false;
+  }
 
   void onReorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
@@ -41,8 +58,8 @@ class HomeController extends GetxController {
     final List<String> shuffledNames = List.from(allNames);
     shuffledNames.shuffle();
 
-    final chunkSize = int.parse(qtdController.text);
-    for (var i = 0; i < shuffledNames.length; i += chunkSize) {
+    const chunkSize = 5;
+    for (var i = 0; i < shuffledNames.length; i += 5) {
       final chunk = shuffledNames.sublist(
         i,
         i + chunkSize > shuffledNames.length
@@ -51,5 +68,83 @@ class HomeController extends GetxController {
       );
       dividedLists.add(chunk);
     }
+  }
+
+  Future<void> loadLists() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedLists = prefs.getString('dividedLists');
+
+    if (savedLists != null) {
+      final List<dynamic> jsonList = json.decode(savedLists);
+      dividedLists.value =
+          jsonList.map((list) => List<String>.from(list)).toList();
+    }
+  }
+
+  Future<void> saveLists() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = json.encode(dividedLists.toList());
+    await prefs.setString('dividedLists', jsonList);
+  }
+
+  void moveListToEnd(int index) {
+    if (index < dividedLists.length) {
+      final listToMove = dividedLists[index];
+      dividedLists.removeAt(index);
+      dividedLists.add(listToMove);
+
+      for (var i = 0; i < dividedLists.length - 1; i++) {
+        while (dividedLists[i].length < 5) {
+          if (listToMove.isNotEmpty) {
+            dividedLists[i].add(listToMove[0]);
+            listToMove.removeAt(0);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+    saveLists();
+  }
+
+  bool areAllListsFull() {
+    return dividedLists.isNotEmpty &&
+        dividedLists.every((list) => list.length == 5);
+  }
+
+  void addNameToList(String name) {
+    if (name.isEmpty) return;
+
+    final bool allListsFull = dividedLists.every((list) => list.length == 5);
+
+    if (!allListsFull) {
+      for (var list in dividedLists) {
+        if (list.length < 5) {
+          list.add(name);
+          break;
+        }
+      }
+    } else {
+      dividedLists.add([name]);
+    }
+
+    saveLists();
+  }
+
+  void createNewListWithName(String name) {
+    dividedLists.add([name]);
+    saveLists();
+    dividedLists.refresh();
+  }
+
+  void createNewList() {
+    dividedLists.add([]);
+    saveLists();
+    dividedLists.refresh();
+  }
+
+  void clearLists() {
+    dividedLists.clear();
+    saveLists();
   }
 }
