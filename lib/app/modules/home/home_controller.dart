@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,12 +11,18 @@ class HomeController extends GetxController {
   RxList<String> allNames = <String>[].obs;
   RxList<List<String>> dividedLists = <List<String>>[].obs;
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController minutosController = TextEditingController();
   RxBool isLoading = false.obs;
 
   final List<int> items = List<int>.generate(50, (int index) => index).obs;
   RxInt sort = 0.obs;
   String get totalNamesText => 'Total de Nomes: ${allNames.length}';
   String get addedNamesText => 'Nomes Adicionados: ${allNames.join(', ')}';
+
+  var tempoRestante = 0.obs;
+  RxInt time = 0.obs;
+
+  Timer? _timer;
 
   List<Color> cardColors = [
     Colors.blue,
@@ -32,6 +40,14 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     loadLists();
+  }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    _timer?.cancel();
+    FlutterRingtonePlayer().stop();
+    super.onClose();
   }
 
   void generateRandomNumber() async {
@@ -146,5 +162,51 @@ class HomeController extends GetxController {
   void clearLists() {
     dividedLists.clear();
     saveLists();
+  }
+
+  void iniciarCronometro() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (tempoRestante.value == 0) {
+        timer.cancel();
+        tocarSomNativo();
+      } else {
+        tempoRestante.value--;
+      }
+    });
+  }
+
+  void tocarSomNativo() {
+    FlutterRingtonePlayer().playNotification(
+      asAlarm: false,
+      looping: true,
+      volume: 100.0,
+    );
+  }
+
+  void reiniciarCronometro() async {
+    final sp = await SharedPreferences.getInstance();
+    _timer?.cancel();
+    FlutterRingtonePlayer().stop();
+    final time = sp.getInt('time');
+    definirTempoPersonalizado(time!);
+  }
+
+  String formatarTempo(int segundos) {
+    final int minutos = segundos ~/ 60;
+    final int segundosRestantes = segundos % 60;
+    return '${minutos.toString().padLeft(2, '0')}:${segundosRestantes.toString().padLeft(2, '0')}';
+  }
+
+  Future<int> definirTempoPersonalizado(int minutos) async {
+    final sp = await SharedPreferences.getInstance();
+    _timer?.cancel();
+    FlutterRingtonePlayer().stop();
+    tempoRestante.value = minutos * 60;
+    time.value = minutos;
+    sp.setInt('time', minutos);
+    return time.value;
   }
 }

@@ -48,6 +48,7 @@ class HomePage extends GetView<HomeController> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                Get.to(const ListTimePage());
                 for (var i = 0; i <= 3; i++) {
                   controller.divideList();
                 }
