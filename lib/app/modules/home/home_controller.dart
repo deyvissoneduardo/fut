@@ -209,4 +209,28 @@ class HomeController extends GetxController {
     sp.setInt('time', minutos);
     return time.value;
   }
+
+  void removeItemFromList(int i, MapEntry<int, String> entry) {
+    dividedLists[i].removeAt(
+      entry.key,
+    );
+
+    if (dividedLists[i].isEmpty) {
+      dividedLists.removeAt(i);
+    }
+
+    dividedLists.refresh();
+    Get.back();
+  }
+
+  void addNameFromList(int i) {
+    final name = nameController.text.trim();
+    if (name.isNotEmpty) {
+      dividedLists[i].add(name);
+      nameController.clear();
+      dividedLists.refresh();
+      saveLists();
+      Get.back();
+    }
+  }
 }

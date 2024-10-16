@@ -13,6 +13,7 @@ class ListTimePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: const SizedBox(),
         title: Obx(
           () => Text(
             controller.formatarTempo(controller.tempoRestante.value),
@@ -136,54 +137,12 @@ class ListTimePage extends GetView<HomeController> {
                                                           icon: const Icon(
                                                             Icons.delete,
                                                           ),
-                                                          onPressed: () {
-                                                            controller
-                                                                .dividedLists[i]
-                                                                .removeAt(
-                                                              entry.key,
-                                                            );
-
-                                                            if (controller
-                                                                .dividedLists[i]
-                                                                .isEmpty) {
+                                                          onPressed: () =>
                                                               controller
-                                                                  .dividedLists
-                                                                  .removeAt(
-                                                                i,
-                                                              );
-                                                            } else if (controller
-                                                                        .dividedLists[
-                                                                            i]
-                                                                        .length <
-                                                                    5 &&
-                                                                controller
-                                                                        .dividedLists
-                                                                        .length >
-                                                                    2 &&
-                                                                controller
-                                                                    .dividedLists[
-                                                                        2]
-                                                                    .isNotEmpty) {
-                                                              final firstItemFromThirdList =
-                                                                  controller
-                                                                      .dividedLists[
-                                                                          2]
-                                                                      .removeAt(
-                                                                0,
-                                                              );
-                                                              controller
-                                                                  .dividedLists[
-                                                                      i]
-                                                                  .add(
-                                                                firstItemFromThirdList,
-                                                              );
-                                                            }
-
-                                                            controller
-                                                                .dividedLists
-                                                                .refresh();
-                                                            Get.back();
-                                                          },
+                                                                  .removeItemFromList(
+                                                            i,
+                                                            entry,
+                                                          ),
                                                         ),
                                                       ),
                                                     )
@@ -235,21 +194,8 @@ class ListTimePage extends GetView<HomeController> {
                                                   child: const Text('Cancelar'),
                                                 ),
                                                 ElevatedButton(
-                                                  onPressed: () {
-                                                    final name = controller
-                                                        .nameController.text
-                                                        .trim();
-                                                    if (name.isNotEmpty) {
-                                                      controller.dividedLists[i]
-                                                          .add(name);
-                                                      controller.nameController
-                                                          .clear();
-                                                      controller.dividedLists
-                                                          .refresh();
-                                                      controller.saveLists();
-                                                      Get.back();
-                                                    }
-                                                  },
+                                                  onPressed: () => controller
+                                                      .addNameFromList(i),
                                                   child:
                                                       const Text('Adicionar'),
                                                 ),
