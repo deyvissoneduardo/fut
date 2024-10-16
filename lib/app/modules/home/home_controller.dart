@@ -54,8 +54,8 @@ class HomeController extends GetxController {
     isLoading.value = true;
     final Random random = Random();
     await Future.delayed(const Duration(seconds: 2));
-    sort.value = ((random.nextInt(10) * 2) + (random.nextInt(20) * 4)) +
-        ((random.nextInt(30) * 3) + ((random.nextInt(40) * 5)));
+    sort.value = ((random.nextInt(99) * 2) + (random.nextInt(99) * 4)) +
+        ((random.nextInt(99) * 3) + ((random.nextInt(99) * 5)));
     isLoading.value = false;
   }
 
