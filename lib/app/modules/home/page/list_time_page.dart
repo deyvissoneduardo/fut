@@ -25,8 +25,7 @@ class ListTimePage extends GetView<HomeController> {
           const SizedBox(width: 20),
           ButtonDelete(
             onPressed: () {
-              controller.allNames.clear();
-              controller.dividedLists.clear();
+              controller.divideList();
               Get.back();
             },
           ),
