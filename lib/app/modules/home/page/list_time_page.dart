@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../count_down_timer_page.dart';
 import '../home_controller.dart';
-import 'button_delete.dart';
 import 'button_impa_par.dart';
 
 class ListTimePage extends GetView<HomeController> {
@@ -13,80 +13,32 @@ class ListTimePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: const SizedBox(),
-        title: Obx(
-          () => Text(
-            controller.formatarTempo(controller.tempoRestante.value),
-            style: const TextStyle(fontSize: 48),
-          ),
-        ),
-        actions: [
-          const ButtonImpaPar(),
-          const SizedBox(width: 20),
-          ButtonDelete(
-            onPressed: () {
-              controller.divideList();
-              Get.back();
-            },
-          ),
+        actions: const [
+          ButtonImpaPar(),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: Get.width * .6,
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: TextField(
-                      controller: controller.minutosController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Digite o tempo (minutos)',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final int minutos =
-                          int.tryParse(controller.minutosController.text) ??
-                              6; // Padrão: 2 minutos
-                      controller.definirTempoPersonalizado(minutos);
-                    },
-                    child: const Text('Tempo'),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if (controller.areAllListsFull()) {
-                        final name = controller.nameController.text.trim();
-                        if (name.isNotEmpty) {
-                          controller.createNewListWithName(name);
-                          controller.nameController.clear();
-                        } else {
-                          controller.createNewList();
-                        }
-                      }
-                    },
-                    child: const Text('Novo Time'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      controller.iniciarCronometro();
-                    },
-                    child: const Text('Iniciar Cronômetro'),
-                  ),
-                ],
+              const CountDownTimerPage(),
+              ElevatedButton(
+                onPressed: () {
+                  if (controller.areAllListsFull()) {
+                    final name = controller.nameController.text.trim();
+                    if (name.isNotEmpty) {
+                      controller.createNewListWithName(name);
+                      controller.nameController.clear();
+                    } else {
+                      controller.createNewList();
+                    }
+                  }
+                },
+                child: const Text('Novo Time'),
               ),
               Obx(
                 () {
