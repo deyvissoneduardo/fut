@@ -12,7 +12,67 @@ class ListTimePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
         centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => controller.countTime01(),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Colors.black, width: 2.0),
+                ),
+                child: const Icon(Icons.add),
+              ),
+            ),
+            Row(
+              children: [
+                const Text('Time 01'),
+                const SizedBox(width: 10),
+                Obx(
+                  () => Text(
+                    '${controller.time1.value}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                      fontSize: 35,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Text('VS'),
+            Row(
+              children: [
+                Obx(
+                  () => Text(
+                    '${controller.time2.value}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                      fontSize: 35,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const Text('Time 02'),
+              ],
+            ),
+            InkWell(
+              onTap: () => controller.countTime02(),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Colors.black, width: 2.0),
+                ),
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ],
+        ),
         actions: const [
           ButtonImpaPar(),
         ],
@@ -174,7 +234,11 @@ class ListTimePage extends GetView<HomeController> {
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   trailing: InkWell(
-                                    onTap: () => controller.moveListToEnd(i),
+                                    onTap: () {
+                                      controller.time1.value = 0;
+                                      controller.time2.value = 0;
+                                      controller.moveListToEnd(i);
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,

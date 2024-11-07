@@ -21,6 +21,8 @@ class HomeController extends GetxController {
 
   var tempoRestante = 0.obs;
   RxInt time = 0.obs;
+  RxInt time1 = 0.obs;
+  RxInt time2 = 0.obs;
 
   Timer? _timer;
 
@@ -40,6 +42,14 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     loadLists();
+  }
+
+  void countTime01() {
+    time1.value += 1;
+  }
+
+  void countTime02() {
+    time2.value += 1;
   }
 
   @override
