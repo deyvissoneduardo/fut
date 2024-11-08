@@ -86,19 +86,52 @@ class ListTimePage extends GetView<HomeController> {
             children: [
               const SizedBox(height: 10),
               const CountDownTimerPage(),
-              ElevatedButton(
-                onPressed: () {
-                  if (controller.areAllListsFull()) {
-                    final name = controller.nameController.text.trim();
-                    if (name.isNotEmpty) {
-                      controller.createNewListWithName(name);
-                      controller.nameController.clear();
-                    } else {
-                      controller.createNewList();
-                    }
-                  }
-                },
-                child: const Text('Novo Time'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Ctrl + z',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                    onPressed: () => controller.undoLastChange(),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Novo Time',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                    onPressed: () {
+                      if (controller.areAllListsFull()) {
+                        final name = controller.nameController.text.trim();
+                        if (name.isNotEmpty) {
+                          controller.createNewListWithName(name);
+                          controller.nameController.clear();
+                        } else {
+                          controller.createNewList();
+                        }
+                      }
+                    },
+                  ),
+                ],
               ),
               Obx(
                 () {
@@ -120,7 +153,21 @@ class ListTimePage extends GetView<HomeController> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Time ${i + 1}:',
+                                        i == 0
+                                            ? 'Jogando Time 01'
+                                            : i == 1
+                                                ? 'Jogando Time 02'
+                                                : i == 2
+                                                    ? 'Primeiro'
+                                                    : i == 3
+                                                        ? 'Segundo'
+                                                        : i == 4
+                                                            ? 'Terceiro'
+                                                            : i == 5
+                                                                ? 'Quarto'
+                                                                : i == 6
+                                                                    ? 'Quinto'
+                                                                    : 'Time ${i + 1}', // Para os demais casos, exibe "Time {i + 1}"
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                         ),

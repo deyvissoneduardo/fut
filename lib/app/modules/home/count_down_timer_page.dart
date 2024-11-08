@@ -103,8 +103,12 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       minutes,
                     );
                     _stopWatchTimer.onStartTimer();
+                    _minuteController.clear();
                   }
-                  _minuteController.clear();
+                  if (minutes == null) {
+                    _stopWatchTimer.onStartTimer();
+                  }
+                  FocusScope.of(context).unfocus();
                 },
                 child: Column(
                   children: [

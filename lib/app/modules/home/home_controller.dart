@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeController extends GetxController {
   RxList<String> allNames = <String>[].obs;
   RxList<List<String>> dividedLists = <List<String>>[].obs;
+  List<List<List<String>>> history = [];
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController minutosController = TextEditingController();
   RxBool isLoading = false.obs;
@@ -44,14 +46,6 @@ class HomeController extends GetxController {
     loadLists();
   }
 
-  void countTime01() {
-    time1.value += 1;
-  }
-
-  void countTime02() {
-    time2.value += 1;
-  }
-
   @override
   void onClose() {
     nameController.dispose();
@@ -60,12 +54,36 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
+  void countTime01() {
+    time1.value += 1;
+  }
+
+  void countTime02() {
+    time2.value += 1;
+  }
+
+  void saveCurrentState() {
+    history.add(
+      List<List<String>>.from(
+        dividedLists.map((list) => List<String>.from(list)),
+      ),
+    );
+  }
+
+  Future<void> undoLastChange() async {
+    if (history.isNotEmpty) {
+      dividedLists.value = history.removeLast();
+      await saveLists();
+      dividedLists.refresh();
+    }
+  }
+
   void generateRandomNumber() async {
     isLoading.value = true;
     final Random random = Random();
     await Future.delayed(const Duration(seconds: 2));
-    sort.value = ((random.nextInt(99) * 2) + (random.nextInt(99) * 4)) +
-        ((random.nextInt(99) * 3) + ((random.nextInt(99) * 5)));
+    sort.value = ((random.nextInt(10) * 2) + (random.nextInt(10) * 4)) +
+        ((random.nextInt(10) * 3) + ((random.nextInt(10) * 5)));
     isLoading.value = false;
   }
 
@@ -114,6 +132,7 @@ class HomeController extends GetxController {
   }
 
   void moveListToEnd(int index) {
+    saveCurrentState();
     if (index < dividedLists.length) {
       final listToMove = dividedLists[index];
       dividedLists.removeAt(index);
@@ -174,50 +193,12 @@ class HomeController extends GetxController {
     saveLists();
   }
 
-  void iniciarCronometro() {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (tempoRestante.value == 0) {
-        timer.cancel();
-        tocarSomNativo();
-      } else {
-        tempoRestante.value--;
-      }
-    });
-  }
-
   void tocarSomNativo() {
     FlutterRingtonePlayer().playNotification(
       asAlarm: false,
       looping: true,
       volume: 100.0,
     );
-  }
-
-  void reiniciarCronometro() async {
-    final sp = await SharedPreferences.getInstance();
-    _timer?.cancel();
-    FlutterRingtonePlayer().stop();
-    final time = sp.getInt('time');
-    definirTempoPersonalizado(time!);
-  }
-
-  String formatarTempo(int segundos) {
-    final int minutos = segundos ~/ 60;
-    final int segundosRestantes = segundos % 60;
-    return '${minutos.toString().padLeft(2, '0')}:${segundosRestantes.toString().padLeft(2, '0')}';
-  }
-
-  Future<int> definirTempoPersonalizado(int minutos) async {
-    final sp = await SharedPreferences.getInstance();
-    _timer?.cancel();
-    FlutterRingtonePlayer().stop();
-    tempoRestante.value = minutos * 60;
-    time.value = minutos;
-    sp.setInt('time', minutos);
-    return time.value;
   }
 
   void removeItemFromList(int i, MapEntry<int, String> entry) {
@@ -234,6 +215,7 @@ class HomeController extends GetxController {
   }
 
   void addNameFromList(int i) {
+    saveCurrentState();
     final name = nameController.text.trim();
     if (name.isNotEmpty) {
       dividedLists[i].add(name);
