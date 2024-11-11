@@ -12,9 +12,15 @@ class AmountPersonsPage extends GetView<HomeController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(controller.totalNamesText),
+          Text(
+            controller.totalNamesText,
+            style: const TextStyle(color: Colors.white),
+          ),
           const SizedBox(height: 8),
-          Text(controller.addedNamesText),
+          Text(
+            controller.addedNamesText,
+            style: const TextStyle(color: Colors.white),
+          ),
           const SizedBox(height: 20),
         ],
       );

@@ -9,6 +9,7 @@ class ButtonImpaPar extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      color: Colors.white,
       onPressed: () {
         controller.sort.value = 0;
         controller.generateRandomNumber();
@@ -37,7 +38,10 @@ class ButtonImpaPar extends GetView<HomeController> {
           ),
         );
       },
-      icon: const Icon(Icons.numbers),
+      icon: const Icon(
+        Icons.numbers,
+        size: 30,
+      ),
     );
   }
 }

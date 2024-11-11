@@ -45,6 +45,15 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
 
   @override
   Widget build(BuildContext context) {
+    const defualtBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(10),
+      ),
+      borderSide: BorderSide(
+        color: Colors.blue,
+        width: 2.0,
+      ),
+    );
     return Container(
       height: 150,
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -68,7 +77,7 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       displayTime,
                       style: const TextStyle(
                         fontSize: 40,
-                        fontFamily: 'Helvetica',
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -82,9 +91,19 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                   child: TextFormField(
                     controller: _minuteController,
                     keyboardType: TextInputType.number,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                     decoration: const InputDecoration(
-                      labelText: 'Digite os minutos',
-                      border: OutlineInputBorder(),
+                      hintText: 'Digite os minutos',
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: defualtBorder,
+                      enabledBorder: defualtBorder,
+                      focusedBorder: defualtBorder,
+                      errorBorder: defualtBorder,
+                      disabledBorder: defualtBorder,
                     ),
                   ),
                 ),
@@ -116,20 +135,20 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(
-                          color: Colors.blue,
+                          color: Colors.blue[600]!,
                           width: 2.0,
                         ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.play_arrow_outlined,
                         size: 35,
-                        color: Colors.blue,
+                        color: Colors.blue[600],
                       ),
                     ),
                     Text(
                       'Start',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: Colors.blue,
+                            color: Colors.blue[600],
                           ),
                     ),
                   ],
@@ -143,20 +162,20 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(
-                          color: Colors.orange,
+                          color: Colors.orangeAccent,
                           width: 2.0,
                         ),
                       ),
                       child: const Icon(
                         Icons.stop,
                         size: 35,
-                        color: Colors.orange,
+                        color: Colors.orangeAccent,
                       ),
                     ),
                     Text(
                       'Stop',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: Colors.orange,
+                            color: Colors.orangeAccent,
                           ),
                     ),
                   ],
@@ -170,20 +189,20 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(
-                          color: Colors.red,
+                          color: Colors.red[600]!,
                           width: 2.0,
                         ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.restart_alt_outlined,
                         size: 35,
-                        color: Colors.red,
+                        color: Colors.red[600],
                       ),
                     ),
                     Text(
                       'Reset',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: Colors.red,
+                            color: Colors.red[600],
                           ),
                     ),
                   ],
@@ -197,20 +216,20 @@ class CountDownTimerPageState extends State<CountDownTimerPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(
-                          color: Colors.redAccent,
+                          color: Colors.cyanAccent,
                           width: 2.0,
                         ),
                       ),
                       child: const Icon(
                         Icons.restore,
                         size: 35,
-                        color: Colors.redAccent,
+                        color: Colors.cyanAccent,
                       ),
                     ),
                     Text(
                       'Zerar',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: Colors.redAccent,
+                            color: Colors.cyanAccent,
                           ),
                     ),
                   ],

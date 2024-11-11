@@ -11,9 +11,15 @@ class ButtonAddNome extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
+      backgroundColor: Colors.blue,
+      elevation: 8,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
       child: const Icon(
         Icons.add,
-        color: Colors.black,
+        color: Colors.white,
+        size: 35,
       ),
     );
   }

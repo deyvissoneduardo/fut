@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../count_down_timer_page.dart';
 import '../home_controller.dart';
+import '../widgets/title_time_widget.dart';
 import 'button_impa_par.dart';
 
 class ListTimePage extends GetView<HomeController> {
@@ -11,9 +12,10 @@ class ListTimePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF424141),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF424141),
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -23,28 +25,34 @@ class ListTimePage extends GetView<HomeController> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Colors.black, width: 2.0),
+                  border: Border.all(color: Colors.white, width: 2.0),
                 ),
-                child: const Icon(Icons.add),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
               ),
             ),
             Row(
               children: [
-                const Text('Time 01'),
+                const Text(
+                  'Time 01',
+                  style: TextStyle(color: Colors.white),
+                ),
                 const SizedBox(width: 10),
                 Obx(
                   () => Text(
                     '${controller.time1.value}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: Colors.tealAccent,
                       fontSize: 35,
                     ),
                   ),
                 ),
               ],
             ),
-            const Text('VS'),
+            const Text('VS', style: TextStyle(color: Colors.white)),
             Row(
               children: [
                 Obx(
@@ -52,13 +60,13 @@ class ListTimePage extends GetView<HomeController> {
                     '${controller.time2.value}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: Colors.tealAccent,
                       fontSize: 35,
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                const Text('Time 02'),
+                const Text('Time 02', style: TextStyle(color: Colors.white)),
               ],
             ),
             InkWell(
@@ -66,9 +74,12 @@ class ListTimePage extends GetView<HomeController> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Colors.black, width: 2.0),
+                  border: Border.all(color: Colors.white, width: 2.0),
                 ),
-                child: const Icon(Icons.add),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -152,26 +163,7 @@ class ListTimePage extends GetView<HomeController> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        i == 0
-                                            ? 'Jogando Time 01'
-                                            : i == 1
-                                                ? 'Jogando Time 02'
-                                                : i == 2
-                                                    ? 'Primeiro'
-                                                    : i == 3
-                                                        ? 'Segundo'
-                                                        : i == 4
-                                                            ? 'Terceiro'
-                                                            : i == 5
-                                                                ? 'Quarto'
-                                                                : i == 6
-                                                                    ? 'Quinto'
-                                                                    : 'Time ${i + 1}', // Para os demais casos, exibe "Time {i + 1}"
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                      ),
+                                      TitleTimeWidget(i: i),
                                       InkWell(
                                         onTap: () {
                                           showAdaptiveDialog(

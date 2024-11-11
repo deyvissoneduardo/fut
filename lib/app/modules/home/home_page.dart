@@ -10,9 +10,24 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    const defualtBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(10),
+      ),
+      borderSide: BorderSide(
+        color: Colors.blue,
+        width: 2.0,
+      ),
+    );
     return Scaffold(
+      backgroundColor: const Color(0xFF424141),
       appBar: AppBar(
-        title: const Icon(Icons.sports_soccer),
+        backgroundColor: const Color(0xFF424141),
+        title: const Icon(
+          Icons.sports_soccer,
+          color: Colors.white,
+          size: 35,
+        ),
         centerTitle: true,
       ),
       floatingActionButton: ButtonAddNome(
@@ -28,19 +43,43 @@ class HomePage extends GetView<HomeController> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            TextField(
+            TextFormField(
               controller: controller.nameController,
-              decoration: const InputDecoration(labelText: 'Adicione nome'),
+              cursorColor: Colors.white,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Adicione nome',
+                hintStyle: TextStyle(color: Colors.white),
+                border: defualtBorder,
+                enabledBorder: defualtBorder,
+                focusedBorder: defualtBorder,
+                errorBorder: defualtBorder,
+                disabledBorder: defualtBorder,
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+                'SORTEAR',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
               onPressed: () {
                 Get.off(const ListTimePage());
                 for (var i = 0; i <= 10; i++) {
                   controller.divideList();
                 }
               },
-              child: const Text('Sortear'),
             ),
             const SizedBox(height: 20),
             const AmountPersonsPage(),
