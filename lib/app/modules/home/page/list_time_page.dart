@@ -216,10 +216,14 @@ class ListTimePage extends GetView<HomeController> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             border: Border.all(
-                                              color: Colors.black,
+                                              color: Colors.red,
+                                              width: 2.0,
                                             ),
                                           ),
-                                          child: const Icon(Icons.remove),
+                                          child: const Icon(
+                                            Icons.remove,
+                                            color: Colors.red,
+                                          ),
                                         ),
                                       ),
                                       if (controller.dividedLists[i].length < 5)
@@ -259,10 +263,14 @@ class ListTimePage extends GetView<HomeController> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               border: Border.all(
-                                                color: Colors.black,
+                                                color: Colors.tealAccent,
+                                                width: 2.0,
                                               ),
                                             ),
-                                            child: const Icon(Icons.add),
+                                            child: const Icon(
+                                              Icons.add,
+                                              color: Colors.tealAccent,
+                                            ),
                                           ),
                                         ),
                                     ],
@@ -283,7 +291,10 @@ class ListTimePage extends GetView<HomeController> {
                                       width: 30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
-                                        border: Border.all(color: Colors.black),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 2.0,
+                                        ),
                                       ),
                                       child: const Align(
                                         alignment: Alignment.center,
