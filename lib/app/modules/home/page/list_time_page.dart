@@ -216,13 +216,13 @@ class ListTimePage extends GetView<HomeController> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             border: Border.all(
-                                              color: Colors.red,
+                                              color: Colors.white,
                                               width: 2.0,
                                             ),
                                           ),
                                           child: const Icon(
                                             Icons.remove,
-                                            color: Colors.red,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
@@ -263,13 +263,13 @@ class ListTimePage extends GetView<HomeController> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               border: Border.all(
-                                                color: Colors.tealAccent,
+                                                color: Colors.white,
                                                 width: 2.0,
                                               ),
                                             ),
                                             child: const Icon(
                                               Icons.add,
-                                              color: Colors.tealAccent,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
@@ -280,31 +280,34 @@ class ListTimePage extends GetView<HomeController> {
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  trailing: InkWell(
-                                    onTap: () {
-                                      controller.time1.value = 0;
-                                      controller.time2.value = 0;
-                                      controller.moveListToEnd(i);
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 2.0,
-                                        ),
-                                      ),
-                                      child: const Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          Icons.arrow_downward,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  trailing: i == 0 || i == 1
+                                      ? InkWell(
+                                          onTap: () {
+                                            controller.time1.value = 0;
+                                            controller.time2.value = 0;
+                                            controller.moveListToEnd(i);
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 2.0,
+                                              ),
+                                            ),
+                                            child: const Align(
+                                              alignment: Alignment.center,
+                                              child: Icon(
+                                                Icons.arrow_downward,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
                                 ),
                               ],
                             ),

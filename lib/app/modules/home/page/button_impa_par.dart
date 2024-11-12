@@ -16,23 +16,41 @@ class ButtonImpaPar extends GetView<HomeController> {
         showAdaptiveDialog(
           context: context,
           builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: const Color(0xFF424141),
             title: Obx(
               () => controller.isLoading.value
                   ? const SizedBox(
                       height: 50,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 90),
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                     )
                   : Text(
                       '${controller.sort} é ${controller.sort % 2 == 0 ? 'par' : 'ímpar'}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
             ),
             actions: [
               ElevatedButton(
                 onPressed: () => Get.back(),
-                child: const Text('OK'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
